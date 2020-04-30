@@ -1,0 +1,33 @@
+{
+  "name": "entrepot/sdk",
+  "description": "Entrepot SDK for PHP 🚀",
+  "homepage": "https://github.com/entrep0t/php-sdk",
+  "license": "MIT",
+  "authors": [{
+    "name": "Ugo Stephant",
+    "email": "ugo@entrepot.dev",
+    "homepage": "http://entrepot.dev"
+  }],
+  "require": {
+    "php" : ">=5.5.0",
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Entrepot\\SDK\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Entrepot\\SDK\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "serve": [
+      "php -S localhost:10000"
+    ]
+  }
+}
