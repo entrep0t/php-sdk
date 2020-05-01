@@ -20,25 +20,30 @@ class Products
     }
 
     /**
-     * @param array[mixed] $params Request params
+     * @param array[mixed] $params (optional) List params
      *      $params = [
-     *          'sort' => string,
-     *          'filter' => string,
      *          'page' => int,
-     *          'count' => int
+     *          'count' => int,
+     *          'sort' => string,
+     *          'filter' => string
      *      ]
      * @param array[mixed] $options (optional) Guzzle request options
      * @return array[array] Returns a list of products
      *
      * @example
      * <code>
-     * $products->list(['page' => 1, 'count' => 10, 'sort' => 'createdAt:-1', 'filter' => 'slug:my-product']);
+     * $products->list([
+     *      'page' => 1,
+     *      'count' => 10,
+     *      'sort' => 'createdAt:-1',
+     *      'filter' => 'categories:category-1,category-2'
+     * ]);
      * </code>
      */
-    public function list($params, $options = [])
+    public function list($params = [], $options = [])
     {
         return $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/products'
+            'url' => $this->client->getConfig('apiUrl').'/store/products?' . http_build_query($params)
         ]));
     }
 
@@ -55,7 +60,7 @@ class Products
     public function get($id, $options = [])
     {
         $result = $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/products/'.$id
+            'url' => $this->client->getConfig('apiUrl').'/store/products/'.$id
         ]));
 
         return $result['product'];
