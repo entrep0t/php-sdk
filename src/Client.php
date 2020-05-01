@@ -18,6 +18,7 @@ class Client
     public $orders;
     public $payments;
     public $products;
+    public $shipping;
 
     /**
      * @param array[mixed] $customConfig Your custom entrepot config
@@ -59,6 +60,7 @@ class Client
         $this->orders = new Orders($this);
         $this->payments = new Payments($this);
         $this->products = new Products($this);
+        $this->shipping = new Shipping($this);
     }
 
     /**
