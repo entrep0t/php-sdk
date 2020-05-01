@@ -3,6 +3,7 @@
 namespace Entrepot\SDK;
 
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
 class Client
@@ -94,6 +95,19 @@ class Client
     }
 
     /**
+     * @return string Refresh token from cookies
+     *
+     * @example
+     * <code>
+     * $client->getRefreshToken();
+     * </code>
+     */
+    private function getRefreshToken()
+    {
+        return $_COOKIE[$this->getConfig('cookieNames.refreshToken')];
+    }
+
+    /**
      * @param array[mixed] $options Request options
      * @return array[mixed] Response from api, always json
      *
@@ -134,16 +148,10 @@ class Client
             $headers['Authorization'] = 'Bearer ' . base64_encode($_COOKIE[$accessToken]);
         }
 
-        try {
-            $response = $this->httpClient->request($method, $options['url'], array_merge($options, [
-                'headers' => $headers,
-                'timeout' => $this->getConfig('requestsTimeout'),
-            ]));
-        } catch (RequestException $error) {
-            if ($error->hasResponse()) {
-                echo Psr7\str($error->getResponse());
-            }
-        }
+        $response = $this->httpClient->request($method, $options['url'], array_merge($options, [
+            'headers' => $headers,
+            'timeout' => $this->getConfig('requestsTimeout'),
+        ]));
 
         // Automatically update saved session id if found in response headers
         if ($response->hasHeader('session')) {
@@ -151,5 +159,39 @@ class Client
         }
 
         return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * @param array[mixed] $options Request options
+     * @return array[mixed] Response from api, always json
+     *
+     * @example
+     * <code>
+     * $client->requestWithRetry(['method' => 'GET', 'url' => 'https://google.fr']);
+     * </code>
+     */
+    public function requestWithRetry($options)
+    {
+        try {
+            $response = $this->request($options);
+        } catch (ClientException $error) {
+            if ($error->getStatusCode() === 403 && $this->getRefreshToken() !== null) {
+                $tokens = $this->httpClient->request('POST', $this->getConfig('apiUrl') . '/store/auth/token', [
+                    'json' => [
+                        'grantType' => 'refresh_token',
+                        'refreshToken' => $this->getRefreshToken(),
+                        'clientId' => $this->getConfig('clientId'),
+                        'redirectUri' => $this->getConfig('redirectUri')
+                    ]
+                ]);
+
+                $this->writeTokens($tokens);
+                $response = $this->request($options);
+            } else {
+                throw $error;
+            }
+        }
+
+        return $response;
     }
 }
