@@ -28,7 +28,10 @@ class Products
      *          'filter' => string
      *      ]
      * @param array[mixed] $options (optional) Guzzle request options
-     * @return array[array] Returns a list of products
+     * @return array[array] Returns a list of products [
+     *      'products' => array[array],
+     *      'total' => int
+     * ]
      *
      * @example
      * <code>

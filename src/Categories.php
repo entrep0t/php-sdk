@@ -28,7 +28,10 @@ class Categories
      *          'filter' => string
      *      ]
      * @param array[mixed] $options (optional) Guzzle request options
-     * @return array[array] Returns a list of categories
+     * @return array[array] Returns a list of categories [
+     *      'categories' => array[array],
+     *      'total' => int
+     * ]
      *
      * @example
      * <code>
