@@ -32,7 +32,7 @@ class Client
     public function __construct($customConfig, $httpClient = null)
     {
         $this->defaultConfig = [
-            'apiUrl' => 'https://api.entrepot.local:10000/api/v1',
+            'apiUrl' => 'https://api.entrepot.dev/api/v1',
             'clientId' => null,
             'redirectUri' => null,
             'requestsTimeout' => 30,
@@ -43,7 +43,7 @@ class Client
             ],
             'cookieOptions' => [
                 'path' => '/',
-                'domain' => 'localhost',
+                'domain' => '',
                 'expires' => 90 * 24 * 60 * 60, // 90 days
                 'secure' => true,
                 'samesite' => 'Strict',
