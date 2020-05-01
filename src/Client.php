@@ -16,6 +16,7 @@ class Client
     public $cart;
     public $categories;
     public $orders;
+    public $payments;
     public $products;
 
     /**
@@ -56,6 +57,7 @@ class Client
         $this->cart = new Cart($this);
         $this->categories = new Categories($this);
         $this->orders = new Orders($this);
+        $this->payments = new Payments($this);
         $this->products = new Products($this);
     }
 
@@ -97,6 +99,36 @@ class Client
     }
 
     /**
+     * @param string $sessionId Current session id
+     *
+     * @example
+     * <code>
+     * $client->writeSession('session-id');
+     * </code>
+     */
+    public function writeSession($sessionId = '')
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        $_SESSION[$this->getConfig('cookieNames.sessionId')] = $sessionId;
+    }
+
+    /**
+     * @return string Access token from cookies
+     *
+     * @example
+     * <code>
+     * $client->getAccessToken();
+     * </code>
+     */
+    private function getAccessToken()
+    {
+        return $_COOKIE[$this->getConfig('cookieNames.accessToken')];
+    }
+
+    /**
      * @return string Refresh token from cookies
      *
      * @example
@@ -107,6 +139,23 @@ class Client
     private function getRefreshToken()
     {
         return $_COOKIE[$this->getConfig('cookieNames.refreshToken')];
+    }
+
+    /**
+     * @return string Session ID from session store
+     *
+     * @example
+     * <code>
+     * $client->getSessionId();
+     * </code>
+     */
+    private function getSessionId()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        return $_SESSION[$this->getConfig('cookieNames.sessionId')];
     }
 
     /**
@@ -139,15 +188,13 @@ class Client
         ]);
 
         // Add session id to headers if found
-        $sessionName = $this->getConfig('cookieNames.sessionId');
-        if (isset($_SESSION[$sessionName]) && (!isset($options['session']) || $options['session'] !== false)) {
-            $headers['Session'] = $_SESSION[$sessionName];
+        if ($this->getSessionId() !== null && (!isset($options['session']) || $options['session'] !== false)) {
+            $headers['Session'] = $this->getSessionId();
         }
 
         // Add authorization if found
-        $accessTokenName = $this->getConfig('cookieNames.accessToken');
-        if (isset($_COOKIE[$accessTokenName]) && (!isset($options['auth']) || $options['auth'] !== false)) {
-            $headers['Authorization'] = 'Bearer ' . base64_encode($_COOKIE[$accessToken]);
+        if ($this->getAccessToken() !== null && (!isset($options['auth']) || $options['auth'] !== false)) {
+            $headers['Authorization'] = 'Bearer ' . base64_encode($this->getAccessToken());
         }
 
         $response = $this->httpClient->request($method, $options['url'], array_merge($options, [
@@ -157,7 +204,7 @@ class Client
 
         // Automatically update saved session id if found in response headers
         if ($response->hasHeader('session')) {
-            $_SESSION[$this->getConfig('cookieNames.sessionId')] = $response->getHeader('session');
+            $this->writeSession($response->getHeader('session'));
         }
 
         return json_decode($response->getBody(), true);
