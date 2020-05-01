@@ -17,22 +17,22 @@ class Products
     /**
      * @param array[mixed] $params - Request params
      *      $params = [
-     *          "sort" => string,
-     *          "filter" => string,
-     *          "page" => int,
-     *          "count" => int
+     *          'sort' => string,
+     *          'filter' => string,
+     *          'page' => int,
+     *          'count' => int
      *      ]
      * @return array[array] Returns a list of products
      *
      * @example
      * <code>
-     * $products->list(["page" => 1, "count" => 10, "sort" => "createdAt:-1", "filter" => "slug:my-product"]);
+     * $products->list(['page' => 1, 'count' => 10, 'sort' => 'createdAt:-1', 'filter' => 'slug:my-product']);
      * </code>
      */
     public function list($params)
     {
         return $this->client->request([
-            "url" => $this->client->getConfig('apiUrl')."/products"
+            'url' => $this->client->getConfig('apiUrl').'/products'
         ]);
     }
 
@@ -48,9 +48,9 @@ class Products
     public function get($id)
     {
         $result = $this->client->request([
-            "url" => $this->client->getConfig('apiUrl')."/products/".$id
+            'url' => $this->client->getConfig('apiUrl').'/products/'.$id
         ]);
 
-        return $result["product"];
+        return $result['product'];
     }
 }

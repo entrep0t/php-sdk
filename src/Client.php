@@ -11,8 +11,9 @@ class Client
     private $httpClient;
     public $customConfig;
 
-    public $products;
+    public $auth;
     public $cart;
+    public $products;
 
     /**
      * @param array[mixed] $customConfig - Your entrepot config
@@ -40,8 +41,9 @@ class Client
         $this->customConfig = $customConfig;
         $this->httpClient = new \GuzzleHttp\Client();
 
-        $this->products = new Products($this);
+        $this->auth = new Auth($this);
         $this->cart = new Cart($this);
+        $this->products = new Products($this);
     }
 
     /**

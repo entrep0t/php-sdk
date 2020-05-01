@@ -6,7 +6,7 @@ class Utils
 {
     public static function get($mixed, $path = '', $defaultValue = null)
     {
-        $path = explode(".", $path);
+        $path = explode('.', $path);
         $result = $mixed;
 
         foreach ($path as $index) {
