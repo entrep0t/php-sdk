@@ -1,5 +1,6 @@
 {
     "name": "entrepot/sdk",
+    "version": "0.0.1-alpha.1",
     "description": "Entrepot SDK for PHP 🚀",
     "homepage": "https://github.com/entrep0t/php-sdk",
     "license": "MIT",
