@@ -9,19 +9,27 @@ class Client
 {
     private $defaultConfig;
     private $httpClient;
-    public $customConfig;
+    private $customConfig;
 
     public $auth;
     public $cart;
     public $products;
 
     /**
-     * @param array[mixed] $customConfig - Your entrepot config
+     * @param array[mixed] $customConfig Your custom entrepot config
+     *      $customConfig = [
+     *          'clientId' => string (required)
+     *      ]
+     *
+     * @example
+     * <code>
+     * $client = new Client(['clientId' => 'yourClientId']);
+     * </code>
      */
     public function __construct($customConfig)
     {
         $this->defaultConfig = [
-            'apiUrl' => 'https://api.entrepot.local:10000/api/v1/store',
+            'apiUrl' => 'https://api.entrepot.local:10000/api/v1',
             'clientId' => null,
             'redirectUri' => null,
             'requestsTimeout' => 30,
@@ -33,9 +41,9 @@ class Client
             'cookieOptions' => [
                 'path' => '/',
                 'domain' => '',
-                'expires' => 90,
+                'expire' => 90 * 24 * 60 * 60, // 90 days
                 'secure' => true,
-                'sameSite' => 'Strict',
+                'samesite' => 'Strict',
             ]
         ];
         $this->customConfig = $customConfig;
@@ -47,8 +55,13 @@ class Client
     }
 
     /**
-     * @param string $path - Config value path, ex: cookieNames.accessToken
-     * @return mixed - Desired config value
+     * @param string $path Config value path, ex: cookieNames.accessToken
+     * @return mixed Desired config value
+     *
+     * @example
+     * <code>
+     * $client->getConfig('cookieOptions.secure');
+     * </code>
      */
     public function getConfig($path)
     {
@@ -56,11 +69,47 @@ class Client
     }
 
     /**
-     * @param array[mixed] $options - Request options
-     * @return array[mixed] - Response from api, always json
+     * @param array[mixed] $tokens OAuth tokens to write in cookies
+     *
+     * @example
+     * <code>
+     * $client->writeTokens(['accessToken' => 'access-token', 'refreshToken' => 'refresh-token']);
+     * </code>
+     */
+    public function writeTokens($tokens)
+    {
+        $cookieOptions = array_merge($this->getConfig('cookieOptions'), [
+            "expire" => time() + $this->getConfig('cookieOptions.expire')
+        ]);
+
+        if (isset($tokens['accessToken'])) {
+            setcookie($this->getConfig('cookieNames.accessToken'), $tokens['accessToken'], $cookieOptions);
+        }
+
+        if (isset($tokens['refreshToken'])) {
+            setcookie($this->getConfig('cookieNames.refreshToken'), $tokens['refreshToken'], $cookieOptions);
+        }
+    }
+
+    /**
+     * @param array[mixed] $options Request options
+     * @return array[mixed] Response from api, always json
+     *
+     * @example
+     * <code>
+     * $client->request(['method' => 'GET', 'url' => 'https://google.fr']);
+     * </code>
      */
     public function request($options)
     {
+        if ($this->getConfig('clientId') === null) {
+            throw new \Exception(
+                'Client ID was not set in configuration. Please use ' .
+                '`$client = new Client([ \'clientId\': \'your_client_id\' ]);` ' .
+                'in order to retrieve your entrepot objects.'
+            );
+        }
+
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
@@ -94,7 +143,7 @@ class Client
             }
         }
 
-        // Update saved session id if found in response headers
+        // Automatically update saved session id if found in response headers
         if ($response->hasHeader('session')) {
             $_SESSION[$this->getConfig('cookieNames.sessionId')] = $response->getHeader('session');
         }

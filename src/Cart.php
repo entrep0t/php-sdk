@@ -8,6 +8,11 @@ class Cart
 
     /**
      * @param Client $client - Entrepot client
+     *
+     * @example
+     * <code>
+     * $cart = new Cart($client);
+     * </code>
      */
     public function __construct($client)
     {
@@ -15,7 +20,7 @@ class Cart
     }
 
     /**
-     * @param array[midex] $options (optional) - Guzzle request options
+     * @param array[mixed] $options (optional) Guzzle request options
      * @return array[mixed] Returns the current cart (or null if no item has been added yet)
      *
      * @example
@@ -26,17 +31,17 @@ class Cart
     public function get($options = [])
     {
         $result = $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/cart'
+            'url' => $this->client->getConfig('apiUrl').'/store/cart'
         ]));
 
         return $result['cart'];
     }
 
     /**
-     * @param string $productId - The product you want to add to the current cart
-     * @param string $variationId (optional) - If it's a variation, you may also pass
+     * @param string $productId The product you want to add to the current cart
+     * @param string $variationId (optional) If it's a variation, you may also pass
      *                                         the variationId alongside productId
-     * @param array[midex] $options (optional) - Guzzle request options
+     * @param array[mixed] $options (optional) Guzzle request options
      * @return array[mixed] Returns the current cart (or a new one)
      *
      * @example
@@ -48,7 +53,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/cart',
+            'url' => $this->client->getConfig('apiUrl').'/store/cart',
             'json' => [
                 'command' => 'add',
                 'productId' => $productId,
@@ -61,10 +66,10 @@ class Cart
     }
 
     /**
-     * @param string $productId - The product you want to pull from the current cart
-     * @param string $variationId (optional) - If it's a variation, you may also pass
-     *                                         the variationId alongside productId
-     * @param array[midex] $options (optional) - Guzzle request options
+     * @param string $productId The product you want to pull from the current cart
+     * @param string $variationId (optional) If it's a variation, you may also pass
+     *                                       the variationId alongside productId
+     * @param array[mixed] $options (optional) Guzzle request options
      * @return array[mixed] Returns the current cart (or a new one)
      *
      * @example
@@ -76,7 +81,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/cart',
+            'url' => $this->client->getConfig('apiUrl').'/store/cart',
             'json' => [
                 'command' => 'remove',
                 'productId' => $productId,
@@ -89,10 +94,10 @@ class Cart
     }
 
     /**
-     * @param string $productId - The product you want to remove completely from the current cart
-     * @param string $variationId (optional) - If it's a variation, you may also pass
-     *                                         the variationId alongside productId
-     * @param array[midex] $options (optional) - Guzzle request options
+     * @param string $productId The product you want to remove completely from the current cart
+     * @param string $variationId (optional) If it's a variation, you may also pass
+     *                                       the variationId alongside productId
+     * @param array[mixed] $options (optional) Guzzle request options
      * @return array[mixed] Returns the current cart (or a new one)
      *
      * @example
@@ -104,7 +109,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/cart',
+            'url' => $this->client->getConfig('apiUrl').'/store/cart',
             'json' => [
                 'command' => 'set',
                 'productId' => $productId,
