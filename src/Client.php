@@ -13,6 +13,7 @@ class Client
 
     public $auth;
     public $cart;
+    public $categories;
     public $products;
 
     /**
@@ -51,6 +52,7 @@ class Client
 
         $this->auth = new Auth($this);
         $this->cart = new Cart($this);
+        $this->categories = new Categories($this);
         $this->products = new Products($this);
     }
 
