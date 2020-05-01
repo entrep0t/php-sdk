@@ -32,7 +32,7 @@ class Auth
      */
     public function authenticate($username, $password, $options = [])
     {
-        $tokens = $this->client->request([
+        $tokens = $this->client->request(array_merge($options, [
             'method' => 'POST',
             'url' => $this->client->getConfig('apiUrl').'/store/auth/token',
             'json' => [
@@ -40,9 +40,9 @@ class Auth
                 'username' => $username,
                 'password' => $password,
                 'clientId' => $this->client->getConfig('clientId'),
-                'redirectUri' => $this->client->redirectUri('redirectUri')
+                'redirectUri' => $this->client->getConfig('redirectUri')
             ]
-        ]);
+        ]));
 
         $this->client->writeTokens($tokens);
 
@@ -60,10 +60,10 @@ class Auth
      */
     public function me($options = [])
     {
-        $result = $this->client->request([
+        $result = $this->client->requestWithRetry(array_merge($options, [
             'method' => 'GET',
-            'url' => $this->client->getConfig('apiUrl').'/store/auth/me',
-        ]);
+            'url' => $this->client->getConfig('apiUrl') . '/store/auth/me',
+        ]));
 
         return $result;
     }
@@ -82,7 +82,7 @@ class Auth
      */
     public function register($username, $password, $email, $options = [])
     {
-        $tokens = $this->client->request([
+        $tokens = $this->client->request(array_merge($options, [
             'method' => 'POST',
             'url' => $this->client->getConfig('apiUrl').'/store/auth/register',
             'json' => [
@@ -90,7 +90,7 @@ class Auth
                 'email' => $email,
                 'password' => $password,
             ]
-        ]);
+        ]));
 
         $this->client->writeTokens($tokens);
 

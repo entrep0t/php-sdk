@@ -53,7 +53,7 @@ class Orders
     {
         $result = $this->client->requestWithRetry(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/payments/' . $gateway . '/intent/confirm/'.$id
+            'url' => $this->client->getConfig('apiUrl').'/store/payments/' . $gateway . '/intent/confirm/'. $orderId
         ]));
 
         return $result['order'];

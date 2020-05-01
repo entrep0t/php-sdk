@@ -2,7 +2,6 @@
 
 namespace Entrepot\SDK;
 
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
 class Client
@@ -30,7 +29,7 @@ class Client
      * $client = new Client(['clientId' => 'yourClientId']);
      * </code>
      */
-    public function __construct($customConfig)
+    public function __construct($customConfig, $httpClient = null)
     {
         $this->defaultConfig = [
             'apiUrl' => 'https://api.entrepot.local:10000/api/v1',
@@ -44,14 +43,14 @@ class Client
             ],
             'cookieOptions' => [
                 'path' => '/',
-                'domain' => '',
-                'expire' => 90 * 24 * 60 * 60, // 90 days
+                'domain' => 'localhost',
+                'expires' => 90 * 24 * 60 * 60, // 90 days
                 'secure' => true,
                 'samesite' => 'Strict',
             ]
         ];
         $this->customConfig = $customConfig;
-        $this->httpClient = new \GuzzleHttp\Client();
+        $this->httpClient = $httpClient ?? new \GuzzleHttp\Client();
 
         $this->auth = new Auth($this);
         $this->cart = new Cart($this);
@@ -86,15 +85,19 @@ class Client
      */
     public function writeTokens($tokens)
     {
-        $cookieOptions = array_merge($this->getConfig('cookieOptions'), [
-            "expire" => time() + $this->getConfig('cookieOptions.expire')
-        ]);
+        $cookieOptions = array_merge(
+            $this->defaultConfig['cookieOptions'],
+            $this->getConfig('cookieOptions'),
+            ['expires' => time() + $this->getConfig('cookieOptions.expires')]
+        );
 
         if (isset($tokens['accessToken'])) {
+            $_COOKIE[$this->getConfig('cookieNames.accessToken')] = $tokens['accessToken'];
             setcookie($this->getConfig('cookieNames.accessToken'), $tokens['accessToken'], $cookieOptions);
         }
 
         if (isset($tokens['refreshToken'])) {
+            $_COOKIE[$this->getConfig('cookieNames.refreshToken')] = $tokens['refreshToken'];
             setcookie($this->getConfig('cookieNames.refreshToken'), $tokens['refreshToken'], $cookieOptions);
         }
     }
@@ -126,7 +129,7 @@ class Client
      */
     private function getAccessToken()
     {
-        return $_COOKIE[$this->getConfig('cookieNames.accessToken')];
+        return $_COOKIE[$this->getConfig('cookieNames.accessToken')] ?? null;
     }
 
     /**
@@ -139,7 +142,7 @@ class Client
      */
     private function getRefreshToken()
     {
-        return $_COOKIE[$this->getConfig('cookieNames.refreshToken')];
+        return $_COOKIE[$this->getConfig('cookieNames.refreshToken')] ?? null;
     }
 
     /**
@@ -156,7 +159,7 @@ class Client
             session_start();
         }
 
-        return $_SESSION[$this->getConfig('cookieNames.sessionId')];
+        return $_SESSION[$this->getConfig('cookieNames.sessionId')] ?? null;
     }
 
     /**
@@ -168,7 +171,7 @@ class Client
      * $client->request(['method' => 'GET', 'url' => 'https://google.fr']);
      * </code>
      */
-    public function request($options)
+    public function request($options = [])
     {
         if ($this->getConfig('clientId') === null) {
             throw new \Exception(
@@ -224,9 +227,11 @@ class Client
     {
         try {
             $response = $this->request($options);
-        } catch (ClientException $error) {
-            if ($error->getStatusCode() === 403 && $this->getRefreshToken() !== null) {
-                $tokens = $this->httpClient->request('POST', $this->getConfig('apiUrl') . '/store/auth/token', [
+        } catch (RequestException $error) {
+            if ($error->getResponse()->getStatusCode() === 403 && $this->getRefreshToken() !== null) {
+                $tokens = $this->request([
+                    'method' => 'POST',
+                    'url' => $this->getConfig('apiUrl') . '/store/auth/token',
                     'json' => [
                         'grantType' => 'refresh_token',
                         'refreshToken' => $this->getRefreshToken(),
@@ -234,7 +239,6 @@ class Client
                         'redirectUri' => $this->getConfig('redirectUri')
                     ]
                 ]);
-
                 $this->writeTokens($tokens);
                 $response = $this->request($options);
             } else {

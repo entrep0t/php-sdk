@@ -44,7 +44,7 @@ class Payments
      *
      * @example
      * <code>
-     * $payments->getAvailableGateways();
+     * $payments->createIntent('stripe');
      * </code>
      */
     public function createIntent($gateway, $options = [])
