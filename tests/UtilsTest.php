@@ -5,10 +5,13 @@ namespace Entrepot\SDK\Test;
 use PHPUnit\Framework\TestCase;
 use Entrepot\SDK\Utils;
 
+/**
+ * @coversDefaultClass \Entrepot\SDK\Utils
+ */
 class UtilsTest extends TestCase
 {
     /**
-     * @covers Utils::get
+     * @covers ::get
      */
     public function testGet()
     {
@@ -18,7 +21,7 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * @covers Utils::get
+     * @covers ::get
      */
     public function testGetWithDefault()
     {

@@ -5,11 +5,12 @@ namespace Entrepot\SDK\Test;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 
+/**
+ * @coversDefaultClass \Entrepot\SDK\Payments
+ */
 class PaymentsTest extends TestCase
 {
     public static $client;
@@ -26,7 +27,7 @@ class PaymentsTest extends TestCase
     }
 
     /**
-     * @covers Payments::getAvailableGateways
+     * @covers ::getAvailableGateways
      */
     public function testGetAvailableGateways()
     {
@@ -36,7 +37,7 @@ class PaymentsTest extends TestCase
     }
 
     /**
-     * @covers Payments::createIntent
+     * @covers ::createIntent
      */
     public function testCreateIntent()
     {

@@ -5,11 +5,12 @@ namespace Entrepot\SDK\Test;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 
+/**
+ * @coversDefaultClass \Entrepot\SDK\Shipping
+ */
 class ShippingTest extends TestCase
 {
     public static $client;
@@ -25,7 +26,7 @@ class ShippingTest extends TestCase
     }
 
     /**
-     * @covers Shipping::list
+     * @covers ::list
      */
     public function testList()
     {

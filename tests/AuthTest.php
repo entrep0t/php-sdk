@@ -10,6 +10,9 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 
+/**
+ * @coversDefaultClass \Entrepot\SDK\Auth
+ */
 class AuthTest extends TestCase
 {
     public static $client;
@@ -38,7 +41,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::authenticate
+     * @covers ::authenticate
      */
     public function testAuthenticate()
     {
@@ -50,7 +53,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::me
+     * @covers ::me
      */
     public function testMe()
     {
@@ -66,7 +69,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::register
+     * @covers ::register
      */
     public function testRegister()
     {
