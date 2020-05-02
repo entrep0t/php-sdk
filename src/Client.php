@@ -127,7 +127,7 @@ class Client
      * $client->getAccessToken();
      * </code>
      */
-    private function getAccessToken()
+    public function getAccessToken()
     {
         return $_COOKIE[$this->getConfig('cookieNames.accessToken')] ?? null;
     }
@@ -140,7 +140,7 @@ class Client
      * $client->getRefreshToken();
      * </code>
      */
-    private function getRefreshToken()
+    public function getRefreshToken()
     {
         return $_COOKIE[$this->getConfig('cookieNames.refreshToken')] ?? null;
     }
@@ -153,7 +153,7 @@ class Client
      * $client->getSessionId();
      * </code>
      */
-    private function getSessionId()
+    public function getSessionId()
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
