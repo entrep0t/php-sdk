@@ -35,7 +35,7 @@
             "./vendor/bin/phpunit"
         ],
         "lint": [
-            "./vendor/bin/phpcs"
+            "./vendor/bin/phpcs --standard=PSR12 src/ tests/"
         ]
     },
     "config": {
