@@ -7,13 +7,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
+use Entrepot\SDK\Categories;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Categories
+ * @coversDefaultClass \Entrepot\SDK
  */
 class CategoriesTest extends TestCase
 {
     public static $client;
+    public static $categories;
 
     public static function setUpBeforeClass(): void
     {
@@ -24,25 +26,26 @@ class CategoriesTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
+        self::$categories = new Categories(self::$client);
     }
 
     /**
-     * @covers ::list
+     * @covers Categories::list
      */
     public function testList()
     {
-        $result = self::$client->categories->list();
+        $result = self::$categories->list();
         $this->assertSame($result['categories'][0]['id'], 'category-1');
         $this->assertSame($result['categories'][0]['name'], 'My category');
         $this->assertSame($result['total'], 1);
     }
 
     /**
-     * @covers ::get
+     * @covers Categories::get
      */
     public function testGet()
     {
-        $category = self::$client->categories->get('category-1');
+        $category = self::$categories->get('category-1');
         $this->assertSame($category['id'], 'category-1');
         $this->assertSame($category['name'], 'My category');
     }

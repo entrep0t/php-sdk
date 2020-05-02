@@ -6,12 +6,12 @@ use PHPUnit\Framework\TestCase;
 use Entrepot\SDK\Utils;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Utils
+ * @coversDefaultClass \Entrepot\SDK
  */
 class UtilsTest extends TestCase
 {
     /**
-     * @covers ::get
+     * @covers Utils::get
      */
     public function testGet()
     {
@@ -21,7 +21,7 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * @covers ::get
+     * @covers Utils::get
      */
     public function testGetWithDefault()
     {

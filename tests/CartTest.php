@@ -7,13 +7,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
+use Entrepot\SDK\Cart;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Cart
+ * @coversDefaultClass \Entrepot\SDK
  */
 class CartTest extends TestCase
 {
     public static $client;
+    public static $cart;
 
     public static function setUpBeforeClass(): void
     {
@@ -34,24 +36,25 @@ class CartTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
+        self::$cart = new Cart(self::$client);
     }
 
     /**
-     * @covers ::get
+     * @covers Cart::get
      */
     public function testGet()
     {
-        $cart = self::$client->cart->get();
+        $cart = self::$cart->get();
         $this->assertSame($cart['content'][0]['id'], 'product-1');
         $this->assertSame($cart['content'][0]['quantity'], 1);
     }
 
     /**
-     * @covers ::addItem
+     * @covers Cart::addItem
      */
     public function testAddItem()
     {
-        $cart = self::$client->cart->addItem('product-1');
+        $cart = self::$cart->addItem('product-1');
         $this->assertSame($cart['content'][0]['id'], 'product-1');
         $this->assertSame($cart['content'][0]['quantity'], 2);
     }
@@ -61,7 +64,7 @@ class CartTest extends TestCase
      */
     public function testPullItem()
     {
-        $cart = self::$client->cart->pullItem('product-1');
+        $cart = self::$cart->pullItem('product-1');
         $this->assertSame($cart['content'][0]['id'], 'product-1');
         $this->assertSame($cart['content'][0]['quantity'], 1);
     }
@@ -71,26 +74,26 @@ class CartTest extends TestCase
      */
     public function testRemoveItem()
     {
-        $cart = self::$client->cart->removeItem('product-1');
+        $cart = self::$cart->removeItem('product-1');
         $this->assertSame($cart['content'][0] ?? null, null);
     }
 
     /**
-     * @covers ::applyCoupon
+     * @covers Cart::applyCoupon
      */
     public function testApplyCoupon()
     {
-        $cart = self::$client->cart->applyCoupon('coupon-1');
+        $cart = self::$cart->applyCoupon('coupon-1');
         $this->assertSame($cart['coupons'][0]['id'], 'coupon-1');
         $this->assertSame($cart['coupons'][0]['value'], 5000);
     }
 
     /**
-     * @covers ::setShippingAddress
+     * @covers Cart::setShippingAddress
      */
     public function testSetShippingAddress()
     {
-        $cart = self::$client->cart->setShippingAddress(
+        $cart = self::$cart->setShippingAddress(
             ['firstName' => 'John', 'lastName' => 'Doe', 'address' => '1 Infinite Loop']
         );
         $this->assertSame($cart['shippingAddress']['firstName'], 'John');
@@ -99,11 +102,11 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers ::setShippingMethod
+     * @covers Cart::setShippingMethod
      */
     public function testSetShippingMethod()
     {
-        $cart = self::$client->cart->setShippingMethod('method-1', 'world');
+        $cart = self::$cart->setShippingMethod('method-1', 'world');
         $this->assertSame($cart['shippingMethod']['id'], 'method-1');
     }
 }

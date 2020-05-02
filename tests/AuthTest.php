@@ -9,13 +9,15 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
+use Entrepot\SDK\Auth;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Auth
+ * @coversDefaultClass \Entrepot\SDK
  */
 class AuthTest extends TestCase
 {
     public static $client;
+    public static $auth;
 
     public static function setUpBeforeClass(): void
     {
@@ -38,14 +40,15 @@ class AuthTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
+        self::$auth = new Auth(self::$client);
     }
 
     /**
-     * @covers ::authenticate
+     * @covers Auth::authenticate
      */
     public function testAuthenticate()
     {
-        $tokens = self::$client->auth->authenticate('username', 'password');
+        $tokens = self::$auth->authenticate('username', 'password');
         $this->assertSame($tokens['accessToken'], 'access test');
         $this->assertSame($tokens['refreshToken'], 'refresh test');
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.accessToken')], 'access test');
@@ -53,15 +56,15 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers ::me
+     * @covers Auth::me
      */
     public function testMe()
     {
-        $infos = self::$client->auth->me();
+        $infos = self::$auth->me();
         $this->assertSame($infos['username'], 'user@test.com');
         $this->assertSame($infos['email'], 'foo@bar.com');
 
-        $infos = self::$client->auth->me();
+        $infos = self::$auth->me();
         $this->assertSame($infos['username'], 'user@test.com');
         $this->assertSame($infos['email'], 'foo@bar.com');
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.accessToken')], 'new access test');
@@ -69,11 +72,11 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers ::register
+     * @covers Auth::register
      */
     public function testRegister()
     {
-        $tokens = self::$client->auth->register('username', 'password', 'user@email.com');
+        $tokens = self::$auth->register('username', 'password', 'user@email.com');
         $this->assertSame($tokens['accessToken'], 'registered access test');
         $this->assertSame($tokens['refreshToken'], 'registered refresh test');
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.accessToken')], 'registered access test');

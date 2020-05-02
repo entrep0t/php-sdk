@@ -7,13 +7,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
+use Entrepot\SDK\Orders;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Orders
+ * @coversDefaultClass \Entrepot\SDK
  */
 class OrdersTest extends TestCase
 {
     public static $client;
+    public static $orders;
 
     public static function setUpBeforeClass(): void
     {
@@ -24,24 +26,25 @@ class OrdersTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
+        self::$orders = new Orders(self::$client);
     }
 
     /**
-     * @covers ::get
+     * @covers Orders::get
      */
     public function testGet()
     {
-        $order = self::$client->orders->get('order-1');
+        $order = self::$orders->get('order-1');
         $this->assertSame($order['id'], 'order-1');
         $this->assertSame($order['status'], 'pending');
     }
 
     /**
-     * @covers ::confirm
+     * @covers Orders::confirm
      */
     public function testConfirm()
     {
-        $order = self::$client->orders->confirm('order-1', 'paypal');
+        $order = self::$orders->confirm('order-1', 'paypal');
         $this->assertSame($order['id'], 'order-1');
         $this->assertSame($order['status'], 'paid');
     }

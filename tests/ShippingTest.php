@@ -7,13 +7,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
+use Entrepot\SDK\Shipping;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Shipping
+ * @coversDefaultClass \Entrepot\SDK
  */
 class ShippingTest extends TestCase
 {
     public static $client;
+    public static $shipping;
 
     public static function setUpBeforeClass(): void
     {
@@ -23,14 +25,15 @@ class ShippingTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
+        self::$shipping = new Shipping(self::$client);
     }
 
     /**
-     * @covers ::list
+     * @covers Shipping::list
      */
     public function testList()
     {
-        $result = self::$client->shipping->list();
+        $result = self::$shipping->list();
         $this->assertSame($result['methods'][0]['id'], 'method-1');
         $this->assertSame($result['total'], 1);
     }

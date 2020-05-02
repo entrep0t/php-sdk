@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 
 /**
- * @coversDefaultClass \Entrepot\SDK\Client
+ * @coversDefaultClass \Entrepot\SDK
  */
 class ClientTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers ::getConfig
+     * @covers Client::getConfig
      */
     public function testGetConfig()
     {
@@ -44,9 +44,9 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers ::writeTokens
-     * @covers ::getAccessToken
-     * @covers ::getRefreshToken
+     * @covers Client::writeTokens
+     * @covers Client::getAccessToken
+     * @covers Client::getRefreshToken
      */
     public function testWriteTokens()
     {
@@ -56,8 +56,8 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers ::writeSession
-     * @covers ::getSessionId
+     * @covers Client::writeSession
+     * @covers Client::getSessionId
      */
     public function testWriteSession()
     {
@@ -66,7 +66,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers ::request
+     * @covers Client::request
      */
     public function testRequest()
     {
@@ -75,7 +75,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers ::requestWithRetry
+     * @covers Client::requestWithRetry
      */
     public function testRequestWithRetry()
     {
