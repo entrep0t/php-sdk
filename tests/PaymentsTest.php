@@ -25,6 +25,9 @@ class PaymentsTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Payments::getAvailableGateways
+     */
     public function testGetAvailableGateways()
     {
         $gateways = self::$client->payments->getAvailableGateways();
@@ -32,6 +35,9 @@ class PaymentsTest extends TestCase
         $this->assertSame($gateways[1], 'stripe');
     }
 
+    /**
+     * @covers Payments::createIntent
+     */
     public function testCreateIntent()
     {
         $result = self::$client->payments->createIntent('stripe');

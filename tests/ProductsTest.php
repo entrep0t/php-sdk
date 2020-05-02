@@ -25,6 +25,9 @@ class ProductsTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Products::list
+     */
     public function testList()
     {
         $result = self::$client->products->list();
@@ -33,6 +36,9 @@ class ProductsTest extends TestCase
         $this->assertSame($result['total'], 1);
     }
 
+    /**
+     * @covers Products::get
+     */
     public function testGet()
     {
         $product = self::$client->products->get('product-1');

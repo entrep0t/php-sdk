@@ -25,6 +25,9 @@ class OrdersTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Orders::get
+     */
     public function testGet()
     {
         $order = self::$client->orders->get('order-1');
@@ -32,6 +35,9 @@ class OrdersTest extends TestCase
         $this->assertSame($order['status'], 'pending');
     }
 
+    /**
+     * @covers Orders::confirm
+     */
     public function testConfirm()
     {
         $order = self::$client->orders->confirm('order-1', 'paypal');

@@ -37,6 +37,9 @@ class AuthTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Auth::authenticate
+     */
     public function testAuthenticate()
     {
         $tokens = self::$client->auth->authenticate('username', 'password');
@@ -46,6 +49,9 @@ class AuthTest extends TestCase
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.refreshToken')], 'refresh test');
     }
 
+    /**
+     * @covers Auth::me
+     */
     public function testMe()
     {
         $infos = self::$client->auth->me();
@@ -59,9 +65,12 @@ class AuthTest extends TestCase
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.refreshToken')], 'new refresh test');
     }
 
+    /**
+     * @covers Auth::register
+     */
     public function testRegister()
     {
-        $tokens = self::$client->auth->authenticate('username', 'password');
+        $tokens = self::$client->auth->register('username', 'password', 'user@email.com');
         $this->assertSame($tokens['accessToken'], 'registered access test');
         $this->assertSame($tokens['refreshToken'], 'registered refresh test');
         $this->assertSame($_COOKIE[self::$client->getConfig('cookieNames.accessToken')], 'registered access test');

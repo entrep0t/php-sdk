@@ -35,6 +35,9 @@ class CartTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Cart::get
+     */
     public function testGet()
     {
         $cart = self::$client->cart->get();
@@ -42,6 +45,9 @@ class CartTest extends TestCase
         $this->assertSame($cart['content'][0]['quantity'], 1);
     }
 
+    /**
+     * @covers Cart::addItem
+     */
     public function testAddItem()
     {
         $cart = self::$client->cart->addItem('product-1');
@@ -49,6 +55,9 @@ class CartTest extends TestCase
         $this->assertSame($cart['content'][0]['quantity'], 2);
     }
 
+    /**
+     * @covers Cart::pullItem
+     */
     public function testPullItem()
     {
         $cart = self::$client->cart->pullItem('product-1');
@@ -56,12 +65,18 @@ class CartTest extends TestCase
         $this->assertSame($cart['content'][0]['quantity'], 1);
     }
 
+    /**
+     * @covers Cart::removeItem
+     */
     public function testRemoveItem()
     {
         $cart = self::$client->cart->removeItem('product-1');
         $this->assertSame($cart['content'][0] ?? null, null);
     }
 
+    /**
+     * @covers Cart::applyCoupon
+     */
     public function testApplyCoupon()
     {
         $cart = self::$client->cart->applyCoupon('coupon-1');
@@ -69,6 +84,9 @@ class CartTest extends TestCase
         $this->assertSame($cart['coupons'][0]['value'], 5000);
     }
 
+    /**
+     * @covers Cart::setShippingAddress
+     */
     public function testSetShippingAddress()
     {
         $cart = self::$client->cart->setShippingAddress(
@@ -79,6 +97,9 @@ class CartTest extends TestCase
         $this->assertSame($cart['shippingAddress']['address'], '1 Infinite Loop');
     }
 
+    /**
+     * @covers Cart::setShippingMethod
+     */
     public function testSetShippingMethod()
     {
         $cart = self::$client->cart->setShippingMethod('method-1', 'world');

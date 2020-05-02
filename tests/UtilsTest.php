@@ -7,6 +7,9 @@ use Entrepot\SDK\Utils;
 
 class UtilsTest extends TestCase
 {
+    /**
+     * @covers Utils::get
+     */
     public function testGet()
     {
         $arr = ['prop' => ['nestedProp' => 'foo']];
@@ -14,6 +17,9 @@ class UtilsTest extends TestCase
         $this->assertSame(Utils::get($arr, 'prop.foo'), null);
     }
 
+    /**
+     * @covers Utils::get
+     */
     public function testGetWithDefault()
     {
         $arr = ['prop' => 'bar'];

@@ -25,6 +25,9 @@ class CategoriesTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Categories::list
+     */
     public function testList()
     {
         $result = self::$client->categories->list();
@@ -33,6 +36,9 @@ class CategoriesTest extends TestCase
         $this->assertSame($result['total'], 1);
     }
 
+    /**
+     * @covers Categories::get
+     */
     public function testGet()
     {
         $category = self::$client->categories->get('category-1');

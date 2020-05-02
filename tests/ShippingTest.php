@@ -24,6 +24,9 @@ class ShippingTest extends TestCase
         self::$client = new Client(['clientId' => 'test'], $httpClient);
     }
 
+    /**
+     * @covers Shipping::list
+     */
     public function testList()
     {
         $result = self::$client->shipping->list();
