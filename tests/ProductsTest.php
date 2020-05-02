@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Products;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class ProductsTest extends TestCase
 {
     public static $client;
@@ -26,11 +23,11 @@ class ProductsTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $httpClient = new \GuzzleHttp\Client(['handler' => $handlerStack]);
         self::$client = new Client(['clientId' => 'test'], $httpClient);
-        self::$products = new Producst(self::$client);
+        self::$products = new Products(self::$client);
     }
 
     /**
-     * @covers Products::list
+     * @covers \Entrepot\SDK\Products::list
      */
     public function testList()
     {
@@ -41,7 +38,7 @@ class ProductsTest extends TestCase
     }
 
     /**
-     * @covers Products::get
+     * @covers \Entrepot\SDK\Products::get
      */
     public function testGet()
     {

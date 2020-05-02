@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Orders;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class OrdersTest extends TestCase
 {
     public static $client;
@@ -30,7 +27,7 @@ class OrdersTest extends TestCase
     }
 
     /**
-     * @covers Orders::get
+     * @covers \Entrepot\SDK\Orders::get
      */
     public function testGet()
     {
@@ -40,7 +37,7 @@ class OrdersTest extends TestCase
     }
 
     /**
-     * @covers Orders::confirm
+     * @covers \Entrepot\SDK\Orders::confirm
      */
     public function testConfirm()
     {

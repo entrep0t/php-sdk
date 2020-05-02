@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Payments;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class PaymentsTest extends TestCase
 {
     public static $client;
@@ -30,7 +27,7 @@ class PaymentsTest extends TestCase
     }
 
     /**
-     * @covers Payments::getAvailableGateways
+     * @covers \Entrepot\SDK\Payments::getAvailableGateways
      */
     public function testGetAvailableGateways()
     {
@@ -40,7 +37,7 @@ class PaymentsTest extends TestCase
     }
 
     /**
-     * @covers Payments::createIntent
+     * @covers \Entrepot\SDK\Payments::createIntent
      */
     public function testCreateIntent()
     {

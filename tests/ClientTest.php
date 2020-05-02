@@ -10,9 +10,6 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class ClientTest extends TestCase
 {
     public static $client;
@@ -35,7 +32,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers Client::getConfig
+     * @covers \Entrepot\SDK\Client::getConfig
      */
     public function testGetConfig()
     {
@@ -44,9 +41,9 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers Client::writeTokens
-     * @covers Client::getAccessToken
-     * @covers Client::getRefreshToken
+     * @covers \Entrepot\SDK\Client::writeTokens
+     * @covers \Entrepot\SDK\Client::getAccessToken
+     * @covers \Entrepot\SDK\Client::getRefreshToken
      */
     public function testWriteTokens()
     {
@@ -56,8 +53,8 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers Client::writeSession
-     * @covers Client::getSessionId
+     * @covers \Entrepot\SDK\Client::writeSession
+     * @covers \Entrepot\SDK\Client::getSessionId
      */
     public function testWriteSession()
     {
@@ -66,7 +63,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers Client::request
+     * @covers \Entrepot\SDK\Client::request
      */
     public function testRequest()
     {
@@ -75,7 +72,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers Client::requestWithRetry
+     * @covers \Entrepot\SDK\Client::requestWithRetry
      */
     public function testRequestWithRetry()
     {

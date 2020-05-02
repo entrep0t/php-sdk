@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Shipping;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class ShippingTest extends TestCase
 {
     public static $client;
@@ -29,7 +26,7 @@ class ShippingTest extends TestCase
     }
 
     /**
-     * @covers Shipping::list
+     * @covers \Entrepot\SDK\Shipping::list
      */
     public function testList()
     {

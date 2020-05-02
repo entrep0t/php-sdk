@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Categories;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class CategoriesTest extends TestCase
 {
     public static $client;
@@ -30,7 +27,7 @@ class CategoriesTest extends TestCase
     }
 
     /**
-     * @covers Categories::list
+     * @covers \Entrepot\SDK\Categories::list
      */
     public function testList()
     {
@@ -41,7 +38,7 @@ class CategoriesTest extends TestCase
     }
 
     /**
-     * @covers Categories::get
+     * @covers \Entrepot\SDK\Categories::get
      */
     public function testGet()
     {

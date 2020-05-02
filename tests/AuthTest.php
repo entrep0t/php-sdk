@@ -11,9 +11,6 @@ use GuzzleHttp\Exception\RequestException;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Auth;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class AuthTest extends TestCase
 {
     public static $client;
@@ -44,7 +41,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::authenticate
+     * @covers \Entrepot\SDK\Auth::authenticate
      */
     public function testAuthenticate()
     {
@@ -56,7 +53,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::me
+     * @covers \Entrepot\SDK\Auth::me
      */
     public function testMe()
     {
@@ -72,7 +69,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @covers Auth::register
+     * @covers \Entrepot\SDK\Auth::register
      */
     public function testRegister()
     {

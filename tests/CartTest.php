@@ -9,9 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Entrepot\SDK\Client;
 use Entrepot\SDK\Cart;
 
-/**
- * @coversDefaultClass \Entrepot\SDK
- */
 class CartTest extends TestCase
 {
     public static $client;
@@ -40,7 +37,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers Cart::get
+     * @covers \Entrepot\SDK\Cart::get
      */
     public function testGet()
     {
@@ -50,7 +47,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers Cart::addItem
+     * @covers \Entrepot\SDK\Cart::addItem
      */
     public function testAddItem()
     {
@@ -60,7 +57,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers ::pullItem
+     * @covers \Entrepot\SDK\Cart::pullItem
      */
     public function testPullItem()
     {
@@ -70,7 +67,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers ::removeItem
+     * @covers Cart::removeItem
      */
     public function testRemoveItem()
     {
@@ -79,7 +76,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers Cart::applyCoupon
+     * @covers \Entrepot\SDK\Cart::applyCoupon
      */
     public function testApplyCoupon()
     {
@@ -89,7 +86,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers Cart::setShippingAddress
+     * @covers \Entrepot\SDK\Cart::setShippingAddress
      */
     public function testSetShippingAddress()
     {
@@ -102,7 +99,7 @@ class CartTest extends TestCase
     }
 
     /**
-     * @covers Cart::setShippingMethod
+     * @covers \Entrepot\SDK\Cart::setShippingMethod
      */
     public function testSetShippingMethod()
     {
