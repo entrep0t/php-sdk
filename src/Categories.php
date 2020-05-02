@@ -41,7 +41,7 @@ class Categories
     public function list($params = [], $options = [])
     {
         return $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/categories?' . http_build_query($params)
+            'url' => $this->client->getConfig('apiUrl') . '/store/categories?' . http_build_query($params)
         ]));
     }
 
@@ -58,7 +58,7 @@ class Categories
     public function get($id, $options = [])
     {
         $result = $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/categories/'.$id
+            'url' => $this->client->getConfig('apiUrl') . '/store/categories/' . $id
         ]));
 
         return $result['category'];

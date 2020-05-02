@@ -46,7 +46,7 @@ class Products
     public function list($params = [], $options = [])
     {
         return $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/products?' . http_build_query($params)
+            'url' => $this->client->getConfig('apiUrl') . '/store/products?' . http_build_query($params)
         ]));
     }
 
@@ -63,7 +63,7 @@ class Products
     public function get($id, $options = [])
     {
         $result = $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/products/'.$id
+            'url' => $this->client->getConfig('apiUrl') . '/store/products/' . $id
         ]));
 
         return $result['product'];

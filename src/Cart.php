@@ -31,7 +31,7 @@ class Cart
     public function get($options = [])
     {
         $result = $this->client->request(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/cart'
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart'
         ]));
 
         return $result['cart'];
@@ -53,7 +53,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart',
             'json' => [
                 'command' => 'add',
                 'productId' => $productId,
@@ -81,7 +81,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart',
             'json' => [
                 'command' => 'remove',
                 'productId' => $productId,
@@ -109,7 +109,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart',
             'json' => [
                 'command' => 'set',
                 'productId' => $productId,
@@ -135,7 +135,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart/coupon',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart/coupon',
             'json' => [
                 'coupon' => $couponName
             ]
@@ -178,7 +178,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart/address',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart/address',
             'json' => [
                 'address' => $address
             ]
@@ -201,7 +201,7 @@ class Cart
     {
         $result = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/cart/address',
+            'url' => $this->client->getConfig('apiUrl') . '/store/cart/address',
             'json' => [
                 'method' => $methodId,
                 'region' => $region

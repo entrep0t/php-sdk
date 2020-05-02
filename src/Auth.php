@@ -34,7 +34,7 @@ class Auth
     {
         $tokens = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/auth/token',
+            'url' => $this->client->getConfig('apiUrl') . '/store/auth/token',
             'json' => [
                 'grantType' => 'password',
                 'username' => $username,
@@ -84,7 +84,7 @@ class Auth
     {
         $tokens = $this->client->request(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/auth/register',
+            'url' => $this->client->getConfig('apiUrl') . '/store/auth/register',
             'json' => [
                 'username' => $username,
                 'email' => $email,

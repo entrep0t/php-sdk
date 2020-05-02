@@ -32,7 +32,7 @@ class Orders
     public function get($id, $options = [])
     {
         $result = $this->client->requestWithRetry(array_merge($options, [
-            'url' => $this->client->getConfig('apiUrl').'/store/orders/'.$id
+            'url' => $this->client->getConfig('apiUrl') . '/store/orders/' . $id
         ]));
 
         return $result['order'];
@@ -53,7 +53,7 @@ class Orders
     {
         $result = $this->client->requestWithRetry(array_merge($options, [
             'method' => 'POST',
-            'url' => $this->client->getConfig('apiUrl').'/store/payments/' . $gateway . '/intent/confirm/'. $orderId
+            'url' => $this->client->getConfig('apiUrl') . '/store/payments/' . $gateway . '/intent/confirm/' . $orderId
         ]));
 
         return $result['order'];
