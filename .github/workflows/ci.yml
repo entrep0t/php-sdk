@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Install deps
+        run: |
+            composer self-update
+            composer install --no-interaction --prefer-source --dev
+      - name: PHPCS check
+        run: composer lint
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["7.3", "7.4"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+      - name: Install deps
+        run: |
+            composer self-update
+            composer install --no-interaction --prefer-source --dev
+      - name: Test
+        run: composer test
+      - name: Codecov upload
+        uses: codecov/codecov-action@v1.0.7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
